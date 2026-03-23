@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timon Board OS v5.4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Bungee&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --board-bg: #d4a373; --paper: #fffef0; --text: #334155; --accent: #ef4444;
+            --border: #475569; --pin-color: #f87171;
+        }
+        [data-theme="dark"] {
+            --board-bg: #2d241e; --paper: #1e293b; --text: #f1f5f9; --accent: #fb7185;
+            --border: #94a3b8; --pin-color: #f43f5e;
+        }
+
+        body {
+            background: var(--board-bg) url('https://www.transparenttextures.com/patterns/cork-board.png');
+            font-family: 'Varela Round', sans-serif; color: var(--text); margin: 0; padding-bottom: 50px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* ХЕДЕР ПОСТЕР */
+        header.poster {
+            width: 100%; background: var(--paper); border-bottom: 5px solid var(--border);
+            padding: 40px 20px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 40px;
+        }
+        header.poster h1 {
+            font-family: 'Bungee', cursive; font-size: clamp(2.5rem, 8vw, 5.5rem); margin: 0;
+            color: var(--text); text-transform: uppercase; text-shadow: 5px 5px 0px var(--accent);
+        }
+
+        .container {
+            max-width: 1200px; width: 95%; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;
+        }
+
+        .block {
+            background: var(--paper); border: 1px solid rgba(0,0,0,0.1); padding: 25px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1); position: relative; transition: 0.3s;
+        }
+        .block:hover { transform: translateY(-5px) rotate(0.5deg); }
+        .block::before {
+            content: ''; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            width: 18px; height: 18px; background: var(--pin-color); border-radius: 50%;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.3); z-index: 5;
+        }
+
+        /* ЧАСЫ */
+        .clock-display {
+            font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: bold;
+            text-align: center; color: var(--accent); margin-top: 10px;
+        }
+
+        /* ПЛЕЕР */
+        .music-wrapper {
+            width: 100%; overflow: hidden; border-radius: 12px; 
+            border: 2px solid var(--border); background: #000;
+        }
+
+        /* ПОЛАРОИД */
+        .polaroid-frame {
+            background: white; padding: 15px 15px 30px 15px;
+            border: 1px solid #ddd; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+            max-width: 250px; margin: 15px auto; transform: rotate(-3deg);
+            transition: 0.3s ease;
+        }
+        .polaroid-frame:hover { transform: rotate(0deg) scale(1.05); }
+        .polaroid-image {
+            width: 100%; height: 200px; background-size: cover; background-position: center;
+            background-color: #eee; border: 1px solid #eee;
+        }
+        .polaroid-caption {
+            text-align: center; font-family: 'Courier New', monospace; font-size: 0.8rem;
+            color: #555; margin-top: 15px; font-weight: bold;
+        }
+
+        /* КАЛЬКУЛЯТОР */
+        .calc-screen {
+            background: #e2e8f0; padding: 15px; border-radius: 8px; text-align: right;
+            font-size: 1.5rem; border: 2px solid var(--border); color: #1e293b; margin-bottom: 10px;
+        }
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+
+        button {
+            padding: 10px; border: 2px solid var(--border); background: white;
+            border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: bold;
+        }
+        button:hover { background: var(--text); color: var(--paper); }
+        input {
+            width: 100%; padding: 10px; border: 2px solid var(--border);
+            border-radius: 8px; box-sizing: border-box; font-family: inherit;
+        }
+
+        .post-it {
+            background: #fef08a; padding: 10px; width: 90px; height: 90px;
+            margin: 5px; display: inline-block; transform: rotate(-2deg);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1); cursor: pointer; color: #451a03; font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+<header class="poster">
+    <button style="position:absolute; top:20px; right:20px; border:none; background:none; font-size:1.5rem; cursor:pointer;" onclick="toggleTheme()" id="t-btn">🌙</button>
+    <h1>timon-board</h1>
+    <div id="live-clock" class="clock-display">00:00:00</div>
+    <div id="live-date" style="opacity: 0.7;">Загрузка даты...</div>
+</header>
+
+<div class="container">
+    <div class="block" style="grid-column: span 2; transform: rotate(0.5deg);">
+        <h2><i class="fa-solid fa-radio"></i> Радио Тимофея</h2>
+        <div class="music-wrapper">
+            <iframe frameborder="0" allow="clipboard-write" style="border:none;width:100%;height:450px;" src="https://music.yandex.ru/iframe/playlist/t1maus1/3"></iframe>
+        </div>
+    </div>
+
+    <div class="block" style="transform: rotate(-1deg);">
+        <h2><i class="fa-solid fa-camera"></i> Вдохновение</h2>
+        <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+            <input type="text" id="pol-in" placeholder="Ссылка на картинку...">
+            <button onclick="updatePolaroid()">ОК</button>
+        </div>
+        <div class="polaroid-frame">
+            <div id="pol-img" class="polaroid-image" style="background-image: url('https://w.forfun.com/fetch/31/31b4636d7a468e8334460a876a40a232.jpeg');"></div>
+            <div class="polaroid-caption">#timon-board // 2026</div>
+        </div>
+    </div>
+
+    <div class="block">
+        <h2><i class="fa-solid fa-sun"></i> Муром</h2>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div id="temp" style="font-size: 2.5rem; font-weight: bold; color: var(--accent);">--°</div>
+            <div id="desc" style="font-weight: bold; text-transform: capitalize;">Загрузка...</div>
+        </div>
+    </div>
+
+    <div class="block" style="transform: rotate(1deg);">
+        <h2><i class="fa-solid fa-stopwatch"></i> Фокус</h2>
+        <div id="timer-val" style="font-size: 3.5rem; text-align: center; font-weight: bold; margin: 10px 0;">25:00</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button onclick="toggleTimer()">ПУСК</button>
+            <button onclick="setTimer(25)">СБРОС</button>
+        </div>
+    </div>
+
+    <div class="block">
+        <h2><i class="fa-solid fa-calculator"></i> Калькулятор</h2>
+        <div class="calc-screen" id="disp">0</div>
+        <div class="calc-grid">
+            <button onclick="clearC()" style="color:var(--accent)">C</button><button onclick="op('/')">/</button><button onclick="op('*')">×</button><button onclick="op('-')">-</button>
+            <button onclick="num('7')">7</button><button onclick="num('8')">8</button><button onclick="num('9')">9</button><button onclick="op('+')">+</button>
+            <button onclick="num('4')">4</button><button onclick="num('5')">5</button><button onclick="num('6')">6</button>
+            <button onclick="calc()" style="grid-row: span 2; background: #dcfce7;">=</button>
+            <button onclick="num('1')">1</button><button onclick="num('2')">2</button><button onclick="num('3')">3</button>
+        </div>
+    </div>
+
+    <div class="block" style="transform: rotate(-0.5deg);">
+        <h2><i class="fa-solid fa-thumbtack"></i> Заметки</h2>
+        <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+            <input type="text" id="n-in" placeholder="Записать...">
+            <button onclick="addNote()">+</button>
+        </div>
+        <div id="notes-area"></div>
+    </div>
+</div>
+
+<script>
+    const KEY = '51b995a825f6cd96e4784cb7278d21e7';
+
+    // ЧАСЫ
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('live-clock').innerText = now.toLocaleTimeString('ru-RU');
+        document.getElementById('live-date').innerText = now.toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ПОГОДА
+    async function loadWeather() {
+        try {
+            const r = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Murom&appid=${KEY}&units=metric&lang=ru`);
+            const d = await r.json();
+            document.getElementById('temp').innerText = Math.round(d.main.temp) + '°';
+            document.getElementById('desc').innerText = d.weather[0].description;
+        } catch(e) { document.getElementById('desc').innerText = "Ошибка API"; }
+    }
+
+    // ТЕМА
+    function toggleTheme() {
+        const b = document.body;
+        const isDark = b.getAttribute('data-theme') === 'dark';
+        b.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        document.getElementById('t-btn').innerText = isDark ? '🌙' : '☀️';
+    }
+
+    // ПОЛАРОИД
+    // Загружаем сохраненную картинку при старте
+    const savedPol = localStorage.getItem('tm_polaroid') || 'https://w.forfun.com/fetch/31/31b4636d7a468e8334460a876a40a232.jpeg';
+    document.getElementById('pol-img').style.backgroundImage = `url('${savedPol}')`;
+
+    function updatePolaroid() {
+        const i = document.getElementById('pol-in');
+        if(i.value) {
+            document.getElementById('pol-img').style.backgroundImage = `url('${i.value}')`;
+            localStorage.setItem('tm_polaroid', i.value); // Сохраняем ссылку в память
+            i.value = '';
+        }
+    }
+
+    // ТАЙМЕР
+    let time = 25*60, tid = null;
+    function updateT() {
+        const m = Math.floor(time/60), s = time%60;
+        document.getElementById('timer-val').innerText = `${m}:${s.toString().padStart(2,'0')}`;
+    }
+    function setTimer(m) { clearInterval(tid); tid = null; time = m*60; updateT(); }
+    function toggleTimer() {
+        if(tid) { clearInterval(tid); tid = null; }
+        else { tid = setInterval(() => { if(--time <= 0) clearInterval(tid); updateT(); }, 1000); }
+    }
+
+    // КАЛЬКУЛЯТОР
+    let s = "";
+    function num(n) { s += n; document.getElementById('disp').innerText = s; }
+    function op(o) { s += " " + o + " "; document.getElementById('disp').innerText = s; }
+    function clearC() { s = ""; document.getElementById('disp').innerText = "0"; }
+    function calc() { try { s = eval(s).toString(); document.getElementById('disp').innerText = s; } catch { clearC(); } }
+
+    // ЗАМЕТКИ
+    let notes = JSON.parse(localStorage.getItem('tm_notes')) || [];
+    function addNote() {
+        const i = document.getElementById('n-in');
+        if(i.value) { notes.push(i.value); i.value=''; save(); }
+    }
+    function delN(i) { notes.splice(i,1); save(); }
+    function save() {
+        localStorage.setItem('tm_notes', JSON.stringify(notes));
+        document.getElementById('notes-area').innerHTML = notes.map((n, i) => `<div class="post-it" onclick="delN(${i})">${n}</div>`).join('');
+    }
+
+    loadWeather();
+    save();
+</script>
+</body>
+</html>
