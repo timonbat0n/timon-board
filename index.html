@@ -186,13 +186,45 @@
             .capacity-grid { grid-template-columns: 1fr; }
             header { width: 100%; box-sizing: border-box; }
         }
+
+        .rd-navbar-nav > li > a {
+    font-family: sans-serif; /* Или тот шрифт, который у тебя основной */
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-size: 14px;
+    color: #777; /* Цвет как на фото */
+}
     </style>
-    <!-- Подключаем элегантный шрифт -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header>
+
+    <div class="rd-navbar-nav-wrap toggle-original-elements">
+    <div class="rd-navbar-nav-wrap__element">
+        <a class="button button-primary-outline" href="https://pozvon.ru/booking">Забронировать</a>
+    </div>
+    
+    <ul class="rd-navbar-nav">
+        <li>
+            <a href="https://pozvon.ru/rooms">ГОСТИНИЦА</a>
+        </li>
+        <li>
+            <a href="https://pozvon.ru/home/suites">БАНКЕТНЫЕ ЗАЛЫ</a>
+        </li>
+        <li>
+            <a href="https://pozvon.ru/service/hot">БАНЯ</a>
+        </li>
+        <li>
+            <a href="https://pozvon.ru/service/pool">БАССЕЙН</a>
+        </li>
+        <li>
+            <a href="https://pozvon.ru/home/contacts">КОНТАКТЫ</a>
+        </li>
+    </ul>
+</div>
+    
     <div class="logo">ГРАНД <span>HALL</span></div>
     <nav>
         <a href="tel:+74923491888" class="btn" style="padding: 10px 20px; font-size: 0.8rem;">Позвонить</a>
