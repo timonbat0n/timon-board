@@ -187,12 +187,37 @@
             header { width: 100%; box-sizing: border-box; }
         }
 
-        .rd-navbar-nav > li > a {
-    font-family: sans-serif; /* Или тот шрифт, который у тебя основной */
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    font-size: 14px;
-    color: #777; /* Цвет как на фото */
+       /* Основной стиль для списка меню */
+.custom-style-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-center; 
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.custom-style-header > li > a {
+    font-family: 'Montserrat', sans-serif; /* Популярный шрифт для этого шаблона */
+    font-size: 14px;            /* Размер букв */
+    font-weight: 400;           /* Толщина шрифта */
+    letter-spacing: 0.1em;      /* Межсимвольный интервал (важно для вида) */
+    color: #4a505e;             /* Тёмно-серый цвет текста */
+    text-transform: uppercase;  /* Всегда заглавные */
+    padding: 10px 20px;         /* Отступы между пунктами */
+    transition: .3s all ease;
+    text-decoration: none;
+}
+
+/* Эффект при наведении (золотистый или акцентный) */
+.custom-style-header > li > a:hover {
+    color: #b59e7a;             /* Цвет как у звезд на логотипе */
+}
+
+/* Убираем лишние маркеры выпадающих списков, если они остались от скриптов */
+.rd-navbar-submenu-toggle {
+    display: none !important;
 }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
@@ -201,27 +226,13 @@
 
 <header>
 
-    <div class="rd-navbar-nav-wrap toggle-original-elements">
-    <div class="rd-navbar-nav-wrap__element">
-        <a class="button button-primary-outline" href="https://pozvon.ru/booking">Забронировать</a>
-    </div>
-    
-    <ul class="rd-navbar-nav">
-        <li>
-            <a href="https://pozvon.ru">ГОСТИНИЦА</a>
-        </li>
-        <li>
-            <a href="№">БАНКЕТНЫЕ ЗАЛЫ</a>
-        </li>
-        <li>
-            <a href="https://pozvon.ru/service/hot">БАНЯ</a>
-        </li>
-        <li>
-            <a href="https://pozvon.ru/service/pool">БАССЕЙН</a>
-        </li>
-        <li>
-            <a href="https://pozvon.ru/home/contacts">КОНТАКТЫ</a>
-        </li>
+   <div class="rd-navbar-nav-wrap">
+    <ul class="rd-navbar-nav custom-style-header">
+        <li><a href="https://pozvon.ru/rooms">НОМЕРА</a></li>
+        <li><a href="https://pozvon.ru/home/suites">БАНКЕТНЫЕ ЗАЛЫ</a></li>
+        <li><a href="https://pozvon.ru/service/hot">БАНЯ</a></li>
+        <li><a href="https://pozvon.ru/service/pool">БАССЕЙН</a></li>
+        <li><a href="https://pozvon.ru/home/contacts">КОНТАКТЫ</a></li>
     </ul>
 </div>
     
